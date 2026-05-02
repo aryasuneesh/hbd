@@ -10,15 +10,25 @@ const CARD_STYLES: { value: CardStyle; label: string; desc: string; emoji: strin
 ];
 
 export default function CardStep({ onNext }: Props) {
+  const [senderName, setSenderName]       = useState('');
   const [recipientName, setRecipientName] = useState('');
   const [message, setMessage]             = useState('');
   const [cardStyle, setCardStyle]         = useState<CardStyle>('fold');
 
-  const canProceed = recipientName.trim().length > 0 && message.trim().length > 0;
+  const canProceed =
+    senderName.trim().length > 0 &&
+    recipientName.trim().length > 0 &&
+    message.trim().length > 0;
 
   function handleNext() {
     if (!canProceed) return;
-    onNext({ recipientName: recipientName.trim(), message: message.trim(), cardPhotoUrl: null, cardStyle });
+    onNext({
+      senderName: senderName.trim(),
+      recipientName: recipientName.trim(),
+      message: message.trim(),
+      cardPhotoUrl: null,
+      cardStyle,
+    });
   }
 
   return (
@@ -28,6 +38,19 @@ export default function CardStep({ onNext }: Props) {
         <h2 className="font-display text-2xl italic text-amber text-center">
           Write the card 🌸
         </h2>
+
+        {/* Sender name */}
+        <div className="flex flex-col gap-2">
+          <label htmlFor="sender-name" className="text-xs font-body text-muted uppercase tracking-widest">From</label>
+          <input
+            id="sender-name"
+            value={senderName}
+            onChange={(e) => setSenderName(e.target.value)}
+            placeholder="Your name…"
+            maxLength={60}
+            className="bg-sand/30 border border-[var(--border)] rounded-xl px-4 py-3 text-sm font-body text-amber placeholder-muted/60 outline-none focus:border-terracotta transition-colors"
+          />
+        </div>
 
         {/* Recipient name */}
         <div className="flex flex-col gap-2">

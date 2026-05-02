@@ -1,22 +1,45 @@
+import { useEffect } from 'react';
+import { useMusicContext } from '../../../contexts/MusicContext';
 import type { SpotifyWidget } from '../../../types/bouquet';
 
+function getSpotifyEmbedUrl(url: string): string {
+  const m = url.match(/spotify\.com\/(track|album|playlist)\/([a-zA-Z0-9]+)/);
+  if (!m) return '';
+  return `https://open.spotify.com/embed/${m[1]}/${m[2]}?utm_source=generator&autoplay=1&theme=0`;
+}
+
 export default function SpotifyExpanded({ widget, onClose: _onClose }: { widget: SpotifyWidget; onClose: () => void }) {
+  const { pauseBackground, resumeBackground } = useMusicContext();
+
+  useEffect(() => {
+    pauseBackground();
+    return () => { resumeBackground(); };
+  }, [pauseBackground, resumeBackground]);
+
+  const embedUrl = getSpotifyEmbedUrl(widget.spotifyUrl);
+
   return (
     <div className="flex flex-col gap-4">
-      <div className="bg-[#1a0a00] rounded-2xl overflow-hidden" style={{ background: 'linear-gradient(135deg, #c4845c, #1a0a00)' }}>
-        <div className="flex items-center gap-4 p-5">
+      {embedUrl ? (
+        <iframe
+          src={embedUrl}
+          width="100%"
+          height="152"
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          style={{ display: 'block', border: 0, borderRadius: 12 }}
+          title={widget.trackTitle}
+          loading="lazy"
+        />
+      ) : (
+        <div className="rounded-2xl overflow-hidden p-5 flex items-center gap-4"
+          style={{ background: 'linear-gradient(135deg, #c4845c, #1a0a00)' }}>
           <img src={widget.albumArtUrl} alt="" className="w-16 h-16 rounded-xl object-cover shrink-0 shadow-lg" />
           <div className="min-w-0">
             <p className="text-base font-semibold text-white truncate">{widget.trackTitle}</p>
             <p className="text-sm text-white/60">{widget.artistName}</p>
           </div>
         </div>
-        <div className="px-5 pb-5">
-          <div className="h-1 bg-white/10 rounded-full">
-            <div className="w-2/5 h-full rounded-full" style={{ background: '#1DB954' }} />
-          </div>
-        </div>
-      </div>
+      )}
       <a
         href={widget.spotifyUrl}
         target="_blank"

@@ -18,6 +18,7 @@ import type { Bouquet } from '../../src/types/bouquet';
 const mockBouquet: Bouquet = {
   cardStyle: 'fold',
   containerType: 'bouquet',
+  senderName: 'Arya',
   recipientName: 'Priya',
   message: 'Happy Birthday!',
   cardPhotoUrl: null,

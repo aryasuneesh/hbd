@@ -1,8 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(bash \"C:/Users/aryas/.claude/plugins/cache/claude-plugins-official/superpowers/5.0.7/skills/brainstorming/scripts/start-server.sh\" --project-dir \"C:/Users/aryas/dev/personal/happy-birthday\")",
-      "Bash(git init *)"
-    ]
-  }
-}

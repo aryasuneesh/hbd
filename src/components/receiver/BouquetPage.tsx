@@ -1,22 +1,24 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { getBouquet } from '../../lib/firestore';
+import { MusicProvider } from '../../contexts/MusicContext';
 import LandingScreen from './LandingScreen';
 import CardFold from './CardFold';
 import CardEnvelope from './CardEnvelope';
 import BouquetContainer from './BouquetContainer';
 import BasketContainer from './BasketContainer';
-import PlaylistPlayer from './PlaylistPlayer';
+import PlaylistPlayer, { type PlaylistPlayerHandle } from './PlaylistPlayer';
 import type { Bouquet } from '../../types/bouquet';
 
 type ReceiverState =
   | { phase: 'loading' }
   | { phase: 'notfound' }
-  | { phase: 'landing';     bouquet: Bouquet }
-  | { phase: 'card';        bouquet: Bouquet; musicPlaying: boolean }
-  | { phase: 'container';   bouquet: Bouquet };
+  | { phase: 'landing';   bouquet: Bouquet }
+  | { phase: 'card';      bouquet: Bouquet }
+  | { phase: 'container'; bouquet: Bouquet };
 
-export default function BouquetPage({ bouquetId }: { bouquetId: string }) {
+function BouquetPageInner({ bouquetId }: { bouquetId: string }) {
   const [state, setState] = useState<ReceiverState>({ phase: 'loading' });
+  const playerRef = useRef<PlaylistPlayerHandle>(null);
 
   useEffect(() => {
     getBouquet(bouquetId).then((b) => {
@@ -25,76 +27,77 @@ export default function BouquetPage({ bouquetId }: { bouquetId: string }) {
     });
   }, [bouquetId]);
 
-  if (state.phase === 'loading') {
-    return (
-      <div className="min-h-screen bg-cream flex items-center justify-center">
-        <p className="font-display italic text-muted animate-pulse">Loading your gift… 🌸</p>
-      </div>
-    );
-  }
+  const bouquet = 'bouquet' in state ? state.bouquet : null;
+  const CardComponent   = bouquet?.cardStyle      === 'fold'    ? CardFold       : CardEnvelope;
+  const ContainerComponent = bouquet?.containerType === 'bouquet' ? BouquetContainer : BasketContainer;
 
-  if (state.phase === 'notfound') {
-    return (
-      <div className="min-h-screen bg-cream flex items-center justify-center p-6">
-        <p className="font-display italic text-amber text-center text-lg">
-          We couldn't find this bouquet 🥀<br />
-          <span className="text-sm text-muted">The link may have expired or been mistyped.</span>
-        </p>
-      </div>
-    );
-  }
-
-  const { bouquet } = state;
-
-  if (state.phase === 'landing') {
-    return (
-      <LandingScreen
-        senderName="your friend"
-        recipientName={bouquet.recipientName}
-        containerType={bouquet.containerType}
-        onOpen={() => setState({ phase: 'card', bouquet, musicPlaying: false })}
-      />
-    );
-  }
-
-  if (state.phase === 'card') {
-    const CardComponent = bouquet.cardStyle === 'fold' ? CardFold : CardEnvelope;
-    return (
-      <>
-        {bouquet.playlistUrl && bouquet.playlistType && (
-          <PlaylistPlayer
-            url={bouquet.playlistUrl}
-            type={bouquet.playlistType}
-            playing={state.musicPlaying}
-          />
-        )}
-        <CardComponent
-          recipientName={bouquet.recipientName}
-          message={bouquet.message}
-          cardPhotoUrl={bouquet.cardPhotoUrl}
-          onOpen={() => setState({ phase: 'card', bouquet, musicPlaying: true })}
-          onSeeGifts={() => setState({ phase: 'container', bouquet })}
+  return (
+    <>
+      {/* PlaylistPlayer is mounted as soon as bouquet data arrives (even during
+          the landing screen) so that the iframe DOM node exists in time for
+          trigger() to set its src synchronously inside the "Open it" click
+          handler — keeping the navigation inside Chrome's user-gesture context
+          and unlocking audio autoplay for the cross-origin embed. */}
+      {bouquet?.playlistUrl && bouquet?.playlistType && (
+        <PlaylistPlayer
+          ref={playerRef}
+          url={bouquet.playlistUrl}
+          type={bouquet.playlistType}
+          senderName={bouquet.senderName}
         />
-      </>
-    );
-  }
+      )}
 
-  if (state.phase === 'container') {
-    const ContainerComponent =
-      bouquet.containerType === 'bouquet' ? BouquetContainer : BasketContainer;
-    return (
-      <>
-        {bouquet.playlistUrl && bouquet.playlistType && (
-          <PlaylistPlayer
-            url={bouquet.playlistUrl}
-            type={bouquet.playlistType}
-            playing={true}
-          />
-        )}
-        <ContainerComponent widgets={bouquet.widgets} />
-      </>
-    );
-  }
+      {state.phase === 'loading' && (
+        <div className="min-h-screen bg-cream flex items-center justify-center">
+          <p className="font-display italic text-muted animate-pulse">Loading your gift… 🌸</p>
+        </div>
+      )}
 
-  return null;
+      {state.phase === 'notfound' && (
+        <div className="min-h-screen bg-cream flex items-center justify-center p-6">
+          <p className="font-display italic text-amber text-center text-lg">
+            We couldn't find this bouquet 🥀<br />
+            <span className="text-sm text-muted">The link may have expired or been mistyped.</span>
+          </p>
+        </div>
+      )}
+
+      {state.phase === 'landing' && (
+        <LandingScreen
+          senderName={bouquet!.senderName}
+          recipientName={bouquet!.recipientName}
+          containerType={bouquet!.containerType}
+          onOpen={() => {
+            // trigger() MUST fire before setState so it runs synchronously
+            // inside the click event — Chrome only grants audio autoplay
+            // permission while the user-gesture context is still active.
+            playerRef.current?.trigger();
+            setState({ phase: 'card', bouquet: bouquet! });
+          }}
+        />
+      )}
+
+      {state.phase === 'card' && (
+        <CardComponent
+          recipientName={bouquet!.recipientName}
+          message={bouquet!.message}
+          cardPhotoUrl={bouquet!.cardPhotoUrl}
+          onOpen={() => {}}
+          onSeeGifts={() => setState({ phase: 'container', bouquet: bouquet! })}
+        />
+      )}
+
+      {state.phase === 'container' && (
+        <ContainerComponent widgets={bouquet!.widgets} />
+      )}
+    </>
+  );
+}
+
+export default function BouquetPage({ bouquetId }: { bouquetId: string }) {
+  return (
+    <MusicProvider>
+      <BouquetPageInner bouquetId={bouquetId} />
+    </MusicProvider>
+  );
 }

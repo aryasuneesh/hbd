@@ -6,51 +6,45 @@ interface Props {
   recipientName: string;
   message: string;
   cardPhotoUrl: string | null;
-  onOpen: () => void;       // called when animation completes → music starts
-  onSeeGifts: () => void;   // called when receiver taps "See your gifts"
+  onOpen: () => void;
+  onSeeGifts: () => void;
 }
 
 export default function CardFold({ recipientName, message, cardPhotoUrl, onOpen, onSeeGifts }: Props) {
-  const [opened, setOpened] = useState(false);
-  const [fullyOpened, setFullyOpened] = useState(false);
-
-  function handleOpen() {
-    setOpened(true);
-  }
+  const [flipped, setFlipped]       = useState(false);
+  const [fullyOpen, setFullyOpen]   = useState(false);
 
   return (
     <div className="min-h-screen bg-cream flex items-center justify-center p-6">
-      <div className="relative" style={{ perspective: '1000px' }}>
-
-        {/* Static left panel */}
+      <div style={{ perspective: '1200px' }}>
         <motion.div
-          className="inline-flex"
-          style={{ transformOrigin: 'right center' }}
+          style={{
+            width: 340,
+            minHeight: 480,
+            position: 'relative',
+            transformStyle: 'preserve-3d',
+            willChange: 'transform',
+          }}
+          animate={{ rotateY: flipped ? -180 : 0 }}
+          transition={{ type: 'spring', stiffness: 100, damping: 20 }}
+          onAnimationComplete={() => { if (flipped) { setFullyOpen(true); onOpen(); } }}
         >
+          {/* Front face — the cover */}
           <div
-            className="w-64 min-h-80 bg-[var(--card-bg)] rounded-l-2xl border border-[var(--border)] shadow-[var(--shadow-card)] flex items-center justify-center"
-            style={{ borderRight: 'none' }}
+            className="absolute inset-0 bg-[var(--card-bg)] rounded-2xl border border-[var(--border)] shadow-[var(--shadow-card)] flex flex-col items-center justify-center gap-4 cursor-pointer select-none"
+            style={{ backfaceVisibility: 'hidden' }}
+            onClick={() => { if (!flipped) setFlipped(true); }}
           >
-            <div className="text-4xl opacity-30">🌸</div>
+            <span className="text-6xl">🌸</span>
+            <span className="font-display text-base italic text-amber">Tap to open</span>
           </div>
 
-          {/* Right panel — hinges open */}
-          <motion.div
-            className="w-64 min-h-80 bg-[var(--card-bg)] rounded-r-2xl border border-[var(--border)] shadow-[var(--shadow-card)] overflow-hidden flex items-center justify-center"
-            style={{ transformOrigin: 'left center', willChange: 'transform' }}
-            animate={opened ? { rotateY: -175 } : { rotateY: 0 }}
-            transition={{ type: 'spring', stiffness: 120, damping: 20 }}
-            onAnimationComplete={() => { if (opened) { setFullyOpened(true); onOpen(); } }}
+          {/* Back face — the message */}
+          <div
+            className="absolute inset-0 bg-[var(--card-bg)] rounded-2xl border border-[var(--border)] shadow-[var(--shadow-card)] flex items-center justify-center overflow-hidden"
+            style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
           >
-            {!fullyOpened ? (
-              <button
-                onClick={handleOpen}
-                className="flex flex-col items-center gap-3 text-center p-6"
-              >
-                <span className="text-3xl">🌷</span>
-                <span className="font-display text-sm italic text-amber">Tap to open</span>
-              </button>
-            ) : (
+            {fullyOpen && (
               <CardContent
                 recipientName={recipientName}
                 message={message}
@@ -58,9 +52,8 @@ export default function CardFold({ recipientName, message, cardPhotoUrl, onOpen,
                 onSeeGifts={onSeeGifts}
               />
             )}
-          </motion.div>
+          </div>
         </motion.div>
-
       </div>
     </div>
   );

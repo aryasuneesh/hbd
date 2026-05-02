@@ -8,9 +8,9 @@ interface Props {
   onOpen: () => void;
 }
 
-const TAGLINES: Record<ContainerType, string> = {
-  bouquet: 'Someone sent you a little bouquet 🌸',
-  basket:  'Someone sent you a cute gift basket 🧺',
+const TAGLINES: Record<ContainerType, (name: string) => string> = {
+  bouquet: (name) => `${name} sent you a little bouquet 🌸`,
+  basket:  (name) => `${name} sent you a cute gift basket 🧺`,
 };
 
 export default function LandingScreen({ senderName, recipientName, containerType, onOpen }: Props) {
@@ -33,13 +33,11 @@ export default function LandingScreen({ senderName, recipientName, containerType
         <div className="flex flex-col gap-1">
           <p className="font-body text-sm text-muted">For {recipientName},</p>
           <h1 className="font-display text-xl italic text-amber leading-snug">
-            {TAGLINES[containerType]}
+            {TAGLINES[containerType](senderName)}
           </h1>
         </div>
 
         <div className="w-10 h-px bg-sand" />
-
-        <p className="font-body text-xs text-muted italic">from {senderName}</p>
 
         <motion.button
           onClick={onOpen}

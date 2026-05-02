@@ -8,6 +8,7 @@ import type { Bouquet, CardStyle, ContainerType, Widget } from '../../types/bouq
 interface Props { onComplete: (bouquetId: string) => void; }
 
 export interface CardData {
+  senderName: string;
   recipientName: string;
   message: string;
   cardPhotoUrl: string | null;

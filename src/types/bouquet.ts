@@ -70,6 +70,7 @@ export interface Bouquet {
   createdAt?: Date;
   cardStyle: CardStyle;
   containerType: ContainerType;
+  senderName: string;
   recipientName: string;
   message: string;
   cardPhotoUrl: string | null;

@@ -61,7 +61,9 @@ export default function BouquetCanvas({ widgets, onAddWidget, onRemoveWidget, ac
             key={widget.id}
             className="absolute cursor-pointer group"
             style={{
-              transform: `translate(${widget.position.x}%, ${widget.position.y}%) rotate(${widget.rotation}deg)`,
+              left: `${widget.position.x}%`,
+              top: `${widget.position.y}%`,
+              rotate: widget.rotation,
               willChange: 'transform',
               touchAction: 'none',
             }}
