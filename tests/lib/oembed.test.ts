@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
 const mockFetch = vi.fn();
-global.fetch = mockFetch;
+(globalThis as unknown as Record<string, unknown>).fetch = mockFetch;
 
 import { fetchSpotifyMeta, fetchYoutubeMeta } from '../../src/lib/oembed';
 
