@@ -24,3 +24,5 @@ functions/lib/
 *.njsproj
 *.sln
 *.sw?
+.vercel
+.env*.local
