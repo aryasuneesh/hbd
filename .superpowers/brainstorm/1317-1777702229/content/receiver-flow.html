@@ -1,0 +1,131 @@
+<h2>Receiver Experience — Screen by Screen</h2>
+<p class="subtitle">The journey from opening the link to exploring the bouquet. Three approaches to the card-opening moment.</p>
+
+<div style="display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; margin-top: 8px;">
+
+  <!-- SCREEN 1: Landing -->
+  <div style="display: flex; flex-direction: column; align-items: center; gap: 6px;">
+    <div style="font-family: Georgia, serif; font-size: 10px; color: #a08060; letter-spacing: 2px; text-transform: uppercase;">Step 1 — Landing</div>
+    <div style="width: 160px; height: 240px; background: #fdf6ec; border-radius: 12px; border: 1px solid #e8d4bc; box-shadow: 0 4px 16px rgba(100,60,20,0.12); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; padding: 16px;">
+      <div style="font-size: 32px;">✉️</div>
+      <div style="font-family: Georgia, serif; font-size: 13px; color: #6b4c2a; font-style: italic; text-align: center; line-height: 1.5;">Someone sent you<br>a little bouquet 🌸</div>
+      <div style="width: 100%; height: 1px; background: #e8d4bc;"></div>
+      <div style="font-family: Georgia, serif; font-size: 10px; color: #a08060; text-align: center; font-style: italic;">from Arya</div>
+      <div style="background: #c4845c; color: #fff; border-radius: 20px; padding: 7px 18px; font-size: 10px; font-family: Georgia, serif; font-style: italic; cursor: pointer; box-shadow: 0 2px 8px rgba(196,132,92,0.3);">Open it ✨</div>
+    </div>
+  </div>
+
+  <!-- Arrow -->
+  <div style="display: flex; align-items: center; padding-top: 60px; color: #c4a882; font-size: 20px;">→</div>
+
+  <!-- SCREEN 2: Card Opening — 3 options stacked -->
+  <div style="display: flex; flex-direction: column; gap: 10px;">
+    <div style="font-family: Georgia, serif; font-size: 10px; color: #a08060; letter-spacing: 2px; text-transform: uppercase; text-align: center;">Step 2 — Card Opens (pick a style)</div>
+
+    <div class="options" style="flex-direction: row; flex-wrap: wrap; gap: 10px; justify-content: center;">
+
+      <!-- Option A: Fold open (book) -->
+      <div class="option" data-choice="fold" onclick="toggleSelect(this)" style="flex: 1; min-width: 140px; max-width: 180px;">
+        <div class="letter">A</div>
+        <div class="content">
+          <div style="display: flex; gap: 0; margin-bottom: 8px; height: 90px; perspective: 300px;">
+            <!-- Left half (static) -->
+            <div style="flex: 1; background: linear-gradient(135deg, #f5ece0, #e8d4bc); border-radius: 8px 0 0 8px; border: 1px solid #d4b896; display: flex; align-items: center; justify-content: center;">
+              <div style="font-size: 16px; opacity: 0.5;">🌸</div>
+            </div>
+            <!-- Right half (folding open, shown mid-animation) -->
+            <div style="flex: 1; background: linear-gradient(135deg, #fffaf4, #f5ece0); border-radius: 0 8px 8px 0; border: 1px solid #d4b896; border-left: none; transform: perspective(200px) rotateY(-30deg); transform-origin: left center; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+              <div style="font-family: Georgia, serif; font-size: 8px; color: #8c6a48; font-style: italic; text-align: center; padding: 4px; transform: scaleX(1.2);">Happy<br>Birthday</div>
+            </div>
+          </div>
+          <h3>Book Fold</h3>
+          <p>Card opens like a book, right panel swings out. Classic, satisfying. Music starts as the right panel fully opens.</p>
+        </div>
+      </div>
+
+      <!-- Option B: Envelope lift -->
+      <div class="option" data-choice="envelope" onclick="toggleSelect(this)" style="flex: 1; min-width: 140px; max-width: 180px;">
+        <div class="letter">B</div>
+        <div class="content">
+          <div style="margin-bottom: 8px; height: 90px; display: flex; align-items: flex-end; justify-content: center; position: relative;">
+            <!-- Envelope body -->
+            <div style="width: 110px; height: 70px; background: #f5ece0; border-radius: 4px; border: 1.5px solid #d4b896; position: relative; overflow: hidden;">
+              <!-- Envelope V lines -->
+              <div style="position: absolute; bottom: 0; left: 0; width: 0; height: 0; border-bottom: 35px solid #e8d4bc; border-right: 55px solid transparent;"></div>
+              <div style="position: absolute; bottom: 0; right: 0; width: 0; height: 0; border-bottom: 35px solid #e0ccb4; border-left: 55px solid transparent;"></div>
+              <!-- Card rising out -->
+              <div style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); width: 70px; height: 60px; background: #fffaf4; border-radius: 4px; border: 1px solid #e8d4bc; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; box-shadow: 0 -2px 8px rgba(100,60,20,0.15);">
+                <div style="font-size: 10px;">🌷</div>
+                <div style="font-family: Georgia, serif; font-size: 7px; color: #8c6a48; font-style: italic;">Happy Birthday</div>
+              </div>
+              <!-- Flap open -->
+              <div style="position: absolute; top: -18px; left: 0; width: 110px; height: 0; border-left: 55px solid transparent; border-right: 55px solid transparent; border-bottom: 36px solid #e8d4bc; transform: rotateX(60deg); transform-origin: bottom center;"></div>
+            </div>
+          </div>
+          <h3>Envelope Lift</h3>
+          <p>Envelope flap opens, card rises up from inside. Feels like receiving a real letter in the post.</p>
+        </div>
+      </div>
+
+      <!-- Option C: Bloom / petals -->
+      <div class="option" data-choice="bloom" onclick="toggleSelect(this)" style="flex: 1; min-width: 140px; max-width: 180px;">
+        <div class="letter">C</div>
+        <div class="content">
+          <div style="margin-bottom: 8px; height: 90px; display: flex; align-items: center; justify-content: center; position: relative;">
+            <!-- Bloom petals (simplified) -->
+            <div style="position: relative; width: 80px; height: 80px;">
+              <div style="position: absolute; top: 50%; left: 50%; width: 28px; height: 38px; background: linear-gradient(180deg, #f2c4b0, #e8a888); border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; transform: translate(-50%, -100%) rotate(0deg); transform-origin: bottom center; opacity: 0.85;"></div>
+              <div style="position: absolute; top: 50%; left: 50%; width: 28px; height: 38px; background: linear-gradient(180deg, #e8c9a0, #d4a870); border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; transform: translate(-50%, -100%) rotate(72deg); transform-origin: bottom center; opacity: 0.85;"></div>
+              <div style="position: absolute; top: 50%; left: 50%; width: 28px; height: 38px; background: linear-gradient(180deg, #f2c4b0, #e8a888); border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; transform: translate(-50%, -100%) rotate(144deg); transform-origin: bottom center; opacity: 0.85;"></div>
+              <div style="position: absolute; top: 50%; left: 50%; width: 28px; height: 38px; background: linear-gradient(180deg, #e8c9a0, #d4a870); border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; transform: translate(-50%, -100%) rotate(216deg); transform-origin: bottom center; opacity: 0.85;"></div>
+              <div style="position: absolute; top: 50%; left: 50%; width: 28px; height: 38px; background: linear-gradient(180deg, #f2c4b0, #e8a888); border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; transform: translate(-50%, -100%) rotate(288deg); transform-origin: bottom center; opacity: 0.85;"></div>
+              <!-- Centre -->
+              <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 24px; height: 24px; background: #c4845c; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px;">🌸</div>
+            </div>
+          </div>
+          <h3>Bloom Open</h3>
+          <p>Card is wrapped in petals that unfold outward like a flower blooming. Most whimsical — fits the bouquet theme perfectly.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Arrow -->
+  <div style="display: flex; align-items: center; padding-top: 60px; color: #c4a882; font-size: 20px;">→</div>
+
+  <!-- SCREEN 3: Bouquet -->
+  <div style="display: flex; flex-direction: column; align-items: center; gap: 6px;">
+    <div style="font-family: Georgia, serif; font-size: 10px; color: #a08060; letter-spacing: 2px; text-transform: uppercase;">Step 3 — The Bouquet</div>
+    <div style="width: 160px; height: 240px; background: #fdf6ec; border-radius: 12px; border: 1px solid #e8d4bc; box-shadow: 0 4px 16px rgba(100,60,20,0.12); overflow: hidden; position: relative;">
+      <!-- Music bar at top -->
+      <div style="background: #1a0a00; padding: 6px 10px; display: flex; align-items: center; gap: 6px;">
+        <div style="font-size: 8px;">🎵</div>
+        <div style="flex: 1; height: 2px; background: rgba(255,255,255,0.15); border-radius: 1px; overflow: hidden;"><div style="width: 35%; height: 100%; background: #1DB954;"></div></div>
+        <div style="font-size: 7px; color: rgba(255,255,255,0.5);">♪ playing</div>
+      </div>
+      <!-- Bouquet items scattered -->
+      <div style="padding: 8px; position: relative; height: calc(100% - 28px);">
+        <div style="position: absolute; top: 12px; left: 10px; background: #1a0a00; border-radius: 8px; padding: 5px 8px; transform: rotate(-4deg); box-shadow: 0 3px 10px rgba(0,0,0,0.15);">
+          <div style="font-size: 7px; color: #fff; white-space: nowrap;">🎵 Blinding Lights</div>
+        </div>
+        <div style="position: absolute; top: 50px; right: 8px; background: #fff; border-radius: 8px; width: 56px; overflow: hidden; transform: rotate(3deg); box-shadow: 0 3px 10px rgba(100,60,20,0.15);">
+          <div style="height: 38px; background: linear-gradient(135deg, #2a1a0a, #8a5030);"></div>
+          <div style="padding: 3px 4px; font-size: 6px; color: #2a1a0a; font-weight: 600;">lofi beats</div>
+        </div>
+        <div style="position: absolute; top: 90px; left: 12px; background: #fff; border-radius: 8px; width: 48px; overflow: hidden; transform: rotate(-2deg); box-shadow: 0 3px 10px rgba(100,60,20,0.15);">
+          <div style="height: 64px; background: linear-gradient(160deg, #f5e8d8, #c4845c); display: flex; align-items: center; justify-content: center; font-size: 16px;">🌸</div>
+        </div>
+        <div style="position: absolute; bottom: 16px; right: 10px; font-size: 24px; transform: rotate(5deg);">🎀</div>
+        <div style="position: absolute; bottom: 30px; left: 50%; transform: rotate(-6deg); background: #f0e0cc; border-radius: 6px; padding: 4px 6px; font-size: 7px; color: #6b4c2a; box-shadow: 0 2px 6px rgba(0,0,0,0.08);">🎬 Amélie</div>
+        <div style="position: absolute; bottom: 8px; left: 14px; font-size: 16px; opacity: 0.7;">✨</div>
+      </div>
+    </div>
+    <div style="font-family: Georgia, serif; font-size: 9px; color: #a08060; font-style: italic; text-align: center; max-width: 160px;">Tap any item to expand it — music plays in the background</div>
+  </div>
+
+</div>
+
+<div style="margin-top: 16px; font-family: Georgia, serif; font-size: 12px; color: #8c6a48; text-align: center; font-style: italic;">
+  Which card-opening style feels right? A, B, or C — or tell me in the terminal.
+</div>

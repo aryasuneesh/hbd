@@ -1,0 +1,177 @@
+<h2>Add Widget Pop-up</h2>
+<p class="subtitle">Appears when the sender drops a widget onto the canvas. Fields adapt per widget type.</p>
+
+<div style="display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; margin-top: 8px;">
+
+  <!-- SPOTIFY POP-UP -->
+  <div style="display: flex; flex-direction: column; gap: 6px; flex: 1; min-width: 260px; max-width: 300px;">
+    <div style="font-family: Georgia, serif; font-size: 10px; color: #a08060; letter-spacing: 1px; text-transform: uppercase; text-align: center;">🎵 Spotify Song</div>
+    <div style="background: #fffaf4; border-radius: 16px; border: 1.5px solid #e0ccb4; box-shadow: 0 8px 32px rgba(100,60,20,0.14), 0 2px 8px rgba(100,60,20,0.08); overflow: hidden;">
+      <!-- Pop-up header -->
+      <div style="background: #f5ece0; padding: 14px 18px 10px; border-bottom: 1px solid #e8d4bc;">
+        <div style="font-family: 'Playfair Display', Georgia, serif; font-size: 15px; color: #6b4c2a; font-style: italic;">Add a song 🎵</div>
+      </div>
+      <!-- Fields -->
+      <div style="padding: 16px 18px; display: flex; flex-direction: column; gap: 13px;">
+
+        <!-- Emoji field -->
+        <div style="display: flex; flex-direction: column; gap: 5px;">
+          <label style="font-family: Georgia, serif; font-size: 10px; color: #a08060; letter-spacing: 1px; text-transform: uppercase;">Cover emoji</label>
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <div style="width: 48px; height: 48px; background: #f5ece0; border-radius: 10px; border: 1.5px solid #e0ccb4; display: flex; align-items: center; justify-content: center; font-size: 28px; cursor: pointer;">🌸</div>
+            <div style="font-family: Georgia, serif; font-size: 10px; color: #c4a882; font-style: italic; line-height: 1.5;">Click to change.<br>This is what the receiver sees first.</div>
+          </div>
+        </div>
+
+        <!-- Spotify URL field -->
+        <div style="display: flex; flex-direction: column; gap: 5px;">
+          <label style="font-family: Georgia, serif; font-size: 10px; color: #a08060; letter-spacing: 1px; text-transform: uppercase;">Spotify link</label>
+          <div style="background: #f5ece0; border: 1.5px solid #e0ccb4; border-radius: 8px; padding: 8px 12px; font-size: 11px; color: #c4a882; font-style: italic; font-family: Georgia, serif;">paste open.spotify.com/track/…</div>
+        </div>
+
+        <!-- Auto-fetched preview (after paste) -->
+        <div style="background: #1a0a00; border-radius: 10px; overflow: hidden; opacity: 0.92;">
+          <div style="height: 44px; background: linear-gradient(135deg, #c4845c, #3a1500); display: flex; align-items: center; padding: 8px; gap: 8px;">
+            <div style="width: 28px; height: 28px; border-radius: 4px; background: linear-gradient(135deg, #e8b88a, #c4845c); display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0;">🎵</div>
+            <div>
+              <div style="font-size: 9px; font-weight: 700; color: #fff;">Blinding Lights</div>
+              <div style="font-size: 8px; color: rgba(255,255,255,0.55);">The Weeknd · auto-fetched ✓</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <!-- Buttons -->
+      <div style="padding: 10px 18px 16px; display: flex; justify-content: flex-end; gap: 10px; border-top: 1px solid #f0e4d4;">
+        <div style="font-family: Georgia, serif; font-size: 12px; color: #a08060; font-style: italic; padding: 7px 16px; cursor: pointer;">Cancel</div>
+        <div style="background: #c4845c; color: #fff; border-radius: 20px; padding: 7px 22px; font-size: 12px; font-family: Georgia, serif; font-style: italic; cursor: pointer; box-shadow: 0 2px 8px rgba(196,132,92,0.3);">Add ✦</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- YOUTUBE POP-UP -->
+  <div style="display: flex; flex-direction: column; gap: 6px; flex: 1; min-width: 260px; max-width: 300px;">
+    <div style="font-family: Georgia, serif; font-size: 10px; color: #a08060; letter-spacing: 1px; text-transform: uppercase; text-align: center;">▶ YouTube Video</div>
+    <div style="background: #fffaf4; border-radius: 16px; border: 1.5px solid #e0ccb4; box-shadow: 0 8px 32px rgba(100,60,20,0.14), 0 2px 8px rgba(100,60,20,0.08); overflow: hidden;">
+      <div style="background: #f5ece0; padding: 14px 18px 10px; border-bottom: 1px solid #e8d4bc;">
+        <div style="font-family: 'Playfair Display', Georgia, serif; font-size: 15px; color: #6b4c2a; font-style: italic;">Add a video ▶</div>
+      </div>
+      <div style="padding: 16px 18px; display: flex; flex-direction: column; gap: 13px;">
+
+        <div style="display: flex; flex-direction: column; gap: 5px;">
+          <label style="font-family: Georgia, serif; font-size: 10px; color: #a08060; letter-spacing: 1px; text-transform: uppercase;">Cover emoji</label>
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <div style="width: 48px; height: 48px; background: #f5ece0; border-radius: 10px; border: 1.5px solid #e0ccb4; display: flex; align-items: center; justify-content: center; font-size: 28px; cursor: pointer;">🌷</div>
+            <div style="font-family: Georgia, serif; font-size: 10px; color: #c4a882; font-style: italic; line-height: 1.5;">Click to change.</div>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 5px;">
+          <label style="font-family: Georgia, serif; font-size: 10px; color: #a08060; letter-spacing: 1px; text-transform: uppercase;">YouTube link</label>
+          <div style="background: #f5ece0; border: 1.5px solid #e0ccb4; border-radius: 8px; padding: 8px 12px; font-size: 11px; color: #c4a882; font-style: italic; font-family: Georgia, serif;">paste youtube.com/watch?v=…</div>
+        </div>
+
+        <!-- Auto-fetched preview -->
+        <div style="background: #fff; border-radius: 10px; overflow: hidden; border: 1px solid #e8d4bc;">
+          <div style="height: 64px; background: linear-gradient(135deg, #2a1a0a, #8a5030); position: relative; display: flex; align-items: center; justify-content: center;">
+            <div style="width: 28px; height: 28px; background: rgba(255,0,0,0.85); border-radius: 6px; display: flex; align-items: center; justify-content: center;"><div style="width: 0; height: 0; border-top: 6px solid transparent; border-bottom: 6px solid transparent; border-left: 11px solid white; margin-left: 2px;"></div></div>
+            <div style="position: absolute; bottom: 4px; right: 6px; background: rgba(0,0,0,0.7); color: #fff; font-size: 7px; padding: 1px 3px; border-radius: 2px;">auto-fetched ✓</div>
+          </div>
+          <div style="padding: 6px 10px 8px;">
+            <div style="font-size: 9px; font-weight: 600; color: #2a1a0a;">lofi hip hop radio – beats to relax to</div>
+            <div style="font-size: 8px; color: #a08060; margin-top: 1px;">ChilledCow · YouTube</div>
+          </div>
+        </div>
+
+      </div>
+      <div style="padding: 10px 18px 16px; display: flex; justify-content: flex-end; gap: 10px; border-top: 1px solid #f0e4d4;">
+        <div style="font-family: Georgia, serif; font-size: 12px; color: #a08060; font-style: italic; padding: 7px 16px; cursor: pointer;">Cancel</div>
+        <div style="background: #c4845c; color: #fff; border-radius: 20px; padding: 7px 22px; font-size: 12px; font-family: Georgia, serif; font-style: italic; cursor: pointer; box-shadow: 0 2px 8px rgba(196,132,92,0.3);">Add ✦</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MOVIE POP-UP -->
+  <div style="display: flex; flex-direction: column; gap: 6px; flex: 1; min-width: 260px; max-width: 300px;">
+    <div style="font-family: Georgia, serif; font-size: 10px; color: #a08060; letter-spacing: 1px; text-transform: uppercase; text-align: center;">🎬 Movie</div>
+    <div style="background: #fffaf4; border-radius: 16px; border: 1.5px solid #e0ccb4; box-shadow: 0 8px 32px rgba(100,60,20,0.14), 0 2px 8px rgba(100,60,20,0.08); overflow: hidden;">
+      <div style="background: #f5ece0; padding: 14px 18px 10px; border-bottom: 1px solid #e8d4bc;">
+        <div style="font-family: 'Playfair Display', Georgia, serif; font-size: 15px; color: #6b4c2a; font-style: italic;">Add a movie 🎬</div>
+      </div>
+      <div style="padding: 16px 18px; display: flex; flex-direction: column; gap: 13px;">
+
+        <div style="display: flex; flex-direction: column; gap: 5px;">
+          <label style="font-family: Georgia, serif; font-size: 10px; color: #a08060; letter-spacing: 1px; text-transform: uppercase;">Cover emoji</label>
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <div style="width: 48px; height: 48px; background: #f5ece0; border-radius: 10px; border: 1.5px solid #e0ccb4; display: flex; align-items: center; justify-content: center; font-size: 28px; cursor: pointer;">🌼</div>
+            <div style="font-family: Georgia, serif; font-size: 10px; color: #c4a882; font-style: italic; line-height: 1.5;">Click to change.</div>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 5px;">
+          <label style="font-family: Georgia, serif; font-size: 10px; color: #a08060; letter-spacing: 1px; text-transform: uppercase;">Paste any movie page URL</label>
+          <div style="background: #f5ece0; border: 1.5px solid #e0ccb4; border-radius: 8px; padding: 8px 12px; font-size: 11px; color: #c4a882; font-style: italic; font-family: Georgia, serif;">imdb.com · letterboxd.com · any…</div>
+          <div style="font-family: Georgia, serif; font-size: 9px; color: #b8a080; font-style: italic; line-height: 1.5;">Poster & title fetched automatically from the page.</div>
+        </div>
+
+        <!-- Auto-fetched preview -->
+        <div style="display: flex; gap: 10px; background: #f5ece0; border-radius: 10px; padding: 10px; border: 1px solid #e8d4bc;">
+          <div style="width: 44px; height: 60px; background: linear-gradient(160deg, #1a0a00, #8a5030); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0;">🎬</div>
+          <div style="display: flex; flex-direction: column; justify-content: center; gap: 3px;">
+            <div style="font-size: 11px; font-weight: 600; color: #2a1a0a; font-family: sans-serif;">Amélie</div>
+            <div style="font-size: 9px; color: #a08060; font-family: sans-serif;">2001 · Jean-Pierre Jeunet</div>
+            <div style="font-size: 8px; color: #7a9a5a; font-style: italic; font-family: Georgia, serif;">poster fetched ✓</div>
+          </div>
+        </div>
+
+      </div>
+      <div style="padding: 10px 18px 16px; display: flex; justify-content: flex-end; gap: 10px; border-top: 1px solid #f0e4d4;">
+        <div style="font-family: Georgia, serif; font-size: 12px; color: #a08060; font-style: italic; padding: 7px 16px; cursor: pointer;">Cancel</div>
+        <div style="background: #c4845c; color: #fff; border-radius: 20px; padding: 7px 22px; font-size: 12px; font-family: Georgia, serif; font-style: italic; cursor: pointer; box-shadow: 0 2px 8px rgba(196,132,92,0.3);">Add ✦</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHOTO POP-UP -->
+  <div style="display: flex; flex-direction: column; gap: 6px; flex: 1; min-width: 260px; max-width: 300px;">
+    <div style="font-family: Georgia, serif; font-size: 10px; color: #a08060; letter-spacing: 1px; text-transform: uppercase; text-align: center;">📸 My Photo</div>
+    <div style="background: #fffaf4; border-radius: 16px; border: 1.5px solid #e0ccb4; box-shadow: 0 8px 32px rgba(100,60,20,0.14), 0 2px 8px rgba(100,60,20,0.08); overflow: hidden;">
+      <div style="background: #f5ece0; padding: 14px 18px 10px; border-bottom: 1px solid #e8d4bc;">
+        <div style="font-family: 'Playfair Display', Georgia, serif; font-size: 15px; color: #6b4c2a; font-style: italic;">Add a photo 📸</div>
+      </div>
+      <div style="padding: 16px 18px; display: flex; flex-direction: column; gap: 13px;">
+
+        <div style="display: flex; flex-direction: column; gap: 5px;">
+          <label style="font-family: Georgia, serif; font-size: 10px; color: #a08060; letter-spacing: 1px; text-transform: uppercase;">Cover emoji</label>
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <div style="width: 48px; height: 48px; background: #f5ece0; border-radius: 10px; border: 1.5px solid #e0ccb4; display: flex; align-items: center; justify-content: center; font-size: 28px; cursor: pointer;">🌺</div>
+            <div style="font-family: Georgia, serif; font-size: 10px; color: #c4a882; font-style: italic; line-height: 1.5;">Click to change.</div>
+          </div>
+        </div>
+
+        <!-- Upload zone -->
+        <div style="border: 2px dashed #d4b896; border-radius: 10px; padding: 16px; display: flex; flex-direction: column; align-items: center; gap: 6px; background: #fdf8f2; cursor: pointer;">
+          <div style="font-size: 24px;">📎</div>
+          <div style="font-family: Georgia, serif; font-size: 10px; color: #8c6a48; font-style: italic;">tap to upload image</div>
+          <div style="font-family: Georgia, serif; font-size: 9px; color: #c4a882;">JPG, PNG, WEBP — max 5 MB</div>
+        </div>
+
+        <!-- Privacy disclaimer -->
+        <div style="background: #fef4e8; border: 1px solid #e8c9a0; border-radius: 8px; padding: 9px 12px; display: flex; gap: 8px; align-items: flex-start;">
+          <div style="font-size: 13px; flex-shrink: 0;">🔒</div>
+          <div style="font-family: Georgia, serif; font-size: 9px; color: #8c6a48; line-height: 1.6;">Your photo is stored privately and only visible to someone with your bouquet link. It is never indexed, shared, or used beyond this bouquet.</div>
+        </div>
+
+      </div>
+      <div style="padding: 10px 18px 16px; display: flex; justify-content: flex-end; gap: 10px; border-top: 1px solid #f0e4d4;">
+        <div style="font-family: Georgia, serif; font-size: 12px; color: #a08060; font-style: italic; padding: 7px 16px; cursor: pointer;">Cancel</div>
+        <div style="background: #c4845c; color: #fff; border-radius: 20px; padding: 7px 22px; font-size: 12px; font-family: Georgia, serif; font-style: italic; cursor: pointer; box-shadow: 0 2px 8px rgba(196,132,92,0.3);">Add ✦</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div style="background: #fff8ee; border: 1px solid #e8c9a0; border-radius: 8px; padding: 12px 18px; margin-top: 20px; font-size: 11px; color: #8c6a48; font-family: Georgia, serif; line-height: 1.8;">
+  <b>Consistent across all pop-ups:</b> header with widget name · emoji picker (large tap target) · relevant URL/upload field · auto-preview once link is pasted · <b>Cancel</b> (text, left) + <b>Add ✦</b> (terracotta pill, right). Pop-up appears centred over the canvas with a soft backdrop blur.
+</div>
