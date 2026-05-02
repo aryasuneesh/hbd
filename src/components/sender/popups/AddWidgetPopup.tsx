@@ -39,11 +39,7 @@ export default function AddWidgetPopup({
         >
           {/* Header */}
           <div className="bg-sand/40 border-b border-[var(--border)] px-5 py-4">
-            <h3
-              aria-label={title}
-              data-title={title}
-              className="font-display text-base italic text-amber before:content-[attr(data-title)]"
-            />
+            <h3 className="font-display text-base italic text-amber">{title}</h3>
           </div>
 
           {/* Body */}

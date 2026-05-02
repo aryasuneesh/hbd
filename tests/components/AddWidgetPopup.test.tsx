@@ -35,7 +35,7 @@ describe('AddWidgetPopup', () => {
         <div>fields</div>
       </AddWidgetPopup>
     );
-    fireEvent.click(screen.getByText(/Add/));
+    fireEvent.click(screen.getByText('Add ✦'));
     expect(onAdd).toHaveBeenCalledOnce();
   });
 
@@ -53,7 +53,7 @@ describe('AddWidgetPopup', () => {
         <div />
       </AddWidgetPopup>
     );
-    fireEvent.click(screen.getByText(/Add/));
+    fireEvent.click(screen.getByText('Add ✦'));
     expect(onAdd).not.toHaveBeenCalled();
   });
 });
