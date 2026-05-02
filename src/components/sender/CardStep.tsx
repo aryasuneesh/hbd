@@ -31,8 +31,9 @@ export default function CardStep({ onNext }: Props) {
 
         {/* Recipient name */}
         <div className="flex flex-col gap-2">
-          <label className="text-xs font-body text-muted uppercase tracking-widest">To</label>
+          <label htmlFor="recipient-name" className="text-xs font-body text-muted uppercase tracking-widest">To</label>
           <input
+            id="recipient-name"
             value={recipientName}
             onChange={(e) => setRecipientName(e.target.value)}
             placeholder="Friend's name…"
@@ -43,10 +44,11 @@ export default function CardStep({ onNext }: Props) {
 
         {/* Message */}
         <div className="flex flex-col gap-2">
-          <label className="text-xs font-body text-muted uppercase tracking-widest">
+          <label htmlFor="message" className="text-xs font-body text-muted uppercase tracking-widest">
             Your message
           </label>
           <textarea
+            id="message"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             placeholder="Write something warm…"
