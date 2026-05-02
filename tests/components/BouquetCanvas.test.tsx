@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import BouquetCanvas from '../../src/components/sender/BouquetCanvas';
 import type { Widget } from '../../src/types/bouquet';
 
@@ -40,5 +40,24 @@ describe('BouquetCanvas', () => {
     // all add buttons should be disabled at limit
     const addBtns = screen.getAllByRole('button', { name: /add/i });
     addBtns.forEach((btn) => expect(btn).toBeDisabled());
+  });
+
+  it('calls onRemoveWidget when × button is clicked', () => {
+    const onRemoveWidget = vi.fn();
+    const { container } = render(
+      <BouquetCanvas
+        widgets={[mockWidget]}
+        onAddWidget={vi.fn()}
+        onRemoveWidget={onRemoveWidget}
+        activePopup={null}
+        onClosePopup={vi.fn()}
+      />
+    );
+    // The remove button is visually hidden via CSS in jsdom but still in the DOM
+    const removeBtn = container.querySelector('button[class*="group-hover"]') ??
+      Array.from(container.querySelectorAll('button')).find(b => b.textContent === '×');
+    expect(removeBtn).not.toBeNull();
+    fireEvent.click(removeBtn!);
+    expect(onRemoveWidget).toHaveBeenCalledWith('1');
   });
 });

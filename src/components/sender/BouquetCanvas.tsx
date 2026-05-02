@@ -30,7 +30,7 @@ function WidgetCard({ widget }: { widget: Widget }) {
   }
 }
 
-export default function BouquetCanvas({ widgets, onAddWidget, onRemoveWidget }: Props) {
+export default function BouquetCanvas({ widgets, onAddWidget, onRemoveWidget, activePopup: _activePopup, onClosePopup: _onClosePopup }: Props) {
   const canvasRef = useRef<HTMLDivElement>(null);
   const atLimit = widgets.length >= MAX_WIDGETS;
 
@@ -61,9 +61,7 @@ export default function BouquetCanvas({ widgets, onAddWidget, onRemoveWidget }: 
             key={widget.id}
             className="absolute cursor-pointer group"
             style={{
-              left: `${widget.position.x}%`,
-              top:  `${widget.position.y}%`,
-              rotate: widget.rotation,
+              transform: `translate(${widget.position.x}%, ${widget.position.y}%) rotate(${widget.rotation}deg)`,
               willChange: 'transform',
             }}
             drag
