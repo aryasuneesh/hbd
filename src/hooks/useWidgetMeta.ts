@@ -22,10 +22,9 @@ export function useWidgetMeta(type: WidgetType, url: string): WidgetMetaResult {
   useEffect(() => {
     if (!url.trim()) { setMeta(null); return; }
 
-    setLoading(true);
-    setError(null);
-
     const timer = setTimeout(async () => {
+      setLoading(true);
+      setError(null);
       try {
         let result: Meta;
         if (type === 'spotify')        result = await fetchSpotifyMeta(url) as Meta;

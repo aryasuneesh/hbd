@@ -22,7 +22,7 @@ describe('useWidgetMeta', () => {
       useWidgetMeta('spotify', 'https://open.spotify.com/track/abc')
     );
 
-    await waitFor(() => expect(result.current.loading).toBe(false));
+    await waitFor(() => expect(result.current.meta).not.toBeNull(), { timeout: 2000 });
     expect(result.current.meta).toMatchObject({
       trackTitle: 'Test Song',
       artistName: 'Test Artist',
