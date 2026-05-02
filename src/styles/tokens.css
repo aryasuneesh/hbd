@@ -1,0 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Lato:wght@300;400;700&display=swap');
+
+:root {
+  --cream:      #fdf6ec;
+  --sand:       #e8c9a0;
+  --terracotta: #c4845c;
+  --amber:      #6b4c2a;
+  --blush:      #f2c4b0;
+  --muted:      #a08060;
+  --stem:       #7a9a5a;
+  --card-bg:    #fffaf4;
+  --border:     #e0ccb4;
+
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body:    Lato, 'Helvetica Neue', sans-serif;
+
+  --radius-sm:  6px;
+  --radius-md:  12px;
+  --radius-lg:  16px;
+  --radius-pill: 999px;
+
+  --shadow-card: 0 4px 20px rgba(107, 76, 42, 0.12), 0 1px 4px rgba(107, 76, 42, 0.08);
+  --shadow-popup: 0 8px 32px rgba(107, 76, 42, 0.16), 0 2px 8px rgba(107, 76, 42, 0.08);
+}
