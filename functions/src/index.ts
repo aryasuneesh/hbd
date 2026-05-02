@@ -1,7 +1,10 @@
 import * as functions from 'firebase-functions';
 import fetch from 'node-fetch';
 
-const OG_TAG_RE = /<meta\s+(?:property|name)=["']og:(\w+)["']\s+content=["']([^"']+)["']/gi;
+// property/name before content
+const OG_TAG_RE_A = /<meta\s+(?:property|name)=["']og:(\w+)["']\s+content=["']([^"']+)["']/gi;
+// content before property/name
+const OG_TAG_RE_B = /<meta\s+content=["']([^"']+)["']\s+(?:property|name)=["']og:(\w+)["']/gi;
 const RATE_LIMIT_PER_MIN = 10;
 const callCounts = new Map<string, { count: number; resetAt: number }>();
 
@@ -31,8 +34,21 @@ export const og = functions.https.onRequest(async (req, res) => {
   if (!rawUrl) { res.status(400).json({ error: 'Missing url param' }); return; }
 
   let targetUrl: string;
-  try { targetUrl = decodeURIComponent(rawUrl); new URL(targetUrl); }
-  catch { res.status(400).json({ error: 'Invalid URL' }); return; }
+  try {
+    targetUrl = decodeURIComponent(rawUrl);
+    const parsed = new URL(targetUrl);
+    const host = parsed.hostname;
+    if (
+      host === 'localhost' ||
+      /^127\./.test(host) ||
+      /^10\./.test(host) ||
+      /^192\.168\./.test(host) ||
+      /^169\.254\./.test(host)
+    ) {
+      res.status(400).json({ error: 'Forbidden URL' });
+      return;
+    }
+  } catch { res.status(400).json({ error: 'Invalid URL' }); return; }
 
   try {
     const response = await fetch(targetUrl, {
@@ -43,8 +59,15 @@ export const og = functions.https.onRequest(async (req, res) => {
 
     const tags: Record<string, string> = {};
     let match: RegExpExecArray | null;
-    while ((match = OG_TAG_RE.exec(html)) !== null) {
+    // Pass A: property/name comes before content
+    OG_TAG_RE_A.lastIndex = 0;
+    while ((match = OG_TAG_RE_A.exec(html)) !== null) {
       tags[match[1]] = match[2];
+    }
+    // Pass B: content comes before property/name (capture groups are reversed)
+    OG_TAG_RE_B.lastIndex = 0;
+    while ((match = OG_TAG_RE_B.exec(html)) !== null) {
+      tags[match[2]] ??= match[1];
     }
 
     res.json({
