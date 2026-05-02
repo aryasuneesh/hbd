@@ -7,7 +7,7 @@ interface Props {
 
 export default function PlaylistSlot({ value, onChange }: Props) {
   const type = value.includes('spotify') ? 'spotify' : 'youtube';
-  const { meta, loading } = useWidgetMeta(
+  const { meta, loading, error } = useWidgetMeta(
     value ? type : 'youtube',
     value,
   );
@@ -28,6 +28,7 @@ export default function PlaylistSlot({ value, onChange }: Props) {
         className="bg-sand/30 border border-[var(--border)] rounded-xl px-3 py-2.5 text-sm font-body text-amber placeholder-muted/50 outline-none focus:border-terracotta transition-colors"
       />
       {loading && <p className="text-[10px] text-muted italic font-body">Fetching playlist…</p>}
+      {error && <p className="text-[10px] text-red-400 font-body">{error}</p>}
       {meta && (
         <p className="text-[10px] text-stem italic font-body">
           ♪ {(meta.trackTitle || meta.videoTitle) as string} — ready ✓
