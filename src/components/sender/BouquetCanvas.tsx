@@ -63,6 +63,7 @@ export default function BouquetCanvas({ widgets, onAddWidget, onRemoveWidget, ac
             style={{
               transform: `translate(${widget.position.x}%, ${widget.position.y}%) rotate(${widget.rotation}deg)`,
               willChange: 'transform',
+              touchAction: 'none',
             }}
             drag
             dragMomentum={false}

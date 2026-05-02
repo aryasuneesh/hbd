@@ -30,7 +30,7 @@ export default function EmojiCover({ emoji, revealed, onReveal, rotation, childr
         {!revealed && (
           <button
             onClick={onReveal}
-            className="block"
+            className="block min-w-[44px] min-h-[44px] flex items-center justify-center"
             style={{
               backfaceVisibility: 'hidden',
               background: 'none',
