@@ -19,7 +19,7 @@ export default function CardEnvelope({ recipientName, message, cardPhotoUrl, onO
     if (phase === 'closed') {
       setPhase('flap-open');
       setTimeout(() => setPhase('card-rising'), 600);
-      setTimeout(() => { setPhase('reading'); onOpen(); }, 1400);
+      setTimeout(() => setPhase('reading'), 1400);
     }
   }
 
@@ -52,6 +52,7 @@ export default function CardEnvelope({ recipientName, message, cardPhotoUrl, onO
                 : { bottom: -160 }
             }
             transition={{ type: 'spring', stiffness: 100, damping: 18 }}
+            onAnimationComplete={() => { if (phase === 'reading') onOpen(); }}
           >
             {phase === 'reading' ? (
               <CardContent

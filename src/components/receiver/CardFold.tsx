@@ -12,6 +12,7 @@ interface Props {
 
 export default function CardFold({ recipientName, message, cardPhotoUrl, onOpen, onSeeGifts }: Props) {
   const [opened, setOpened] = useState(false);
+  const [fullyOpened, setFullyOpened] = useState(false);
 
   function handleOpen() {
     setOpened(true);
@@ -39,9 +40,9 @@ export default function CardFold({ recipientName, message, cardPhotoUrl, onOpen,
             style={{ transformOrigin: 'left center', willChange: 'transform' }}
             animate={opened ? { rotateY: -175 } : { rotateY: 0 }}
             transition={{ type: 'spring', stiffness: 120, damping: 20 }}
-            onAnimationComplete={() => { if (opened) onOpen(); }}
+            onAnimationComplete={() => { if (opened) { setFullyOpened(true); onOpen(); } }}
           >
-            {!opened ? (
+            {!fullyOpened ? (
               <button
                 onClick={handleOpen}
                 className="flex flex-col items-center gap-3 text-center p-6"
