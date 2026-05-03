@@ -1,12 +1,14 @@
 import type { WidgetType } from '../../types/bouquet';
 
 const WIDGET_TYPES: { type: WidgetType; label: string; emoji: string }[] = [
-  { type: 'spotify',   label: 'Song',    emoji: '🎵' },
-  { type: 'youtube',   label: 'Video',   emoji: '🎬' },
-  { type: 'movie',     label: 'Movie',   emoji: '🎞️' },
-  { type: 'pinterest', label: 'Pin',     emoji: '📌' },
-  { type: 'photo',     label: 'Photo',   emoji: '📸' },
-  { type: 'sticker',   label: 'Sticker', emoji: '✨' },
+  { type: 'spotify',   label: 'Song',     emoji: '🎵' },
+  { type: 'youtube',   label: 'Video',    emoji: '🎬' },
+  { type: 'playlist',  label: 'Playlist', emoji: '🎧' },
+  { type: 'movie',     label: 'Movie',    emoji: '🎞️' },
+  { type: 'pinterest', label: 'Pin',      emoji: '📌' },
+  { type: 'photo',     label: 'Photo',    emoji: '📸' },
+  { type: 'link',      label: 'Link',     emoji: '🔗' },
+  { type: 'sticker',   label: 'Sticker',  emoji: '✨' },
 ];
 
 interface Props {

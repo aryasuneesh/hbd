@@ -1,19 +1,18 @@
 import { motion } from 'framer-motion';
-import type { ContainerType } from '../../types/bouquet';
+import type { ContainerType, OccasionType } from '../../types/bouquet';
+import { OCCASIONS, DEFAULT_OCCASION } from '../../lib/occasions';
 
 interface Props {
   senderName: string;
   recipientName: string;
   containerType: ContainerType;
+  occasion?: OccasionType;
   onOpen: () => void;
 }
 
-const TAGLINES: Record<ContainerType, (name: string) => string> = {
-  bouquet: (name) => `${name} sent you a little bouquet 🌸`,
-  basket:  (name) => `${name} sent you a cute gift basket 🧺`,
-};
+export default function LandingScreen({ senderName, recipientName, containerType, occasion, onOpen }: Props) {
+  const occ = OCCASIONS[occasion ?? DEFAULT_OCCASION];
 
-export default function LandingScreen({ senderName, recipientName, containerType, onOpen }: Props) {
   return (
     <div className="min-h-screen bg-cream flex items-center justify-center p-6">
       <motion.div
@@ -33,7 +32,7 @@ export default function LandingScreen({ senderName, recipientName, containerType
         <div className="flex flex-col gap-1">
           <p className="font-body text-sm text-muted">For {recipientName},</p>
           <h1 className="font-display text-xl italic text-amber leading-snug">
-            {TAGLINES[containerType](senderName)}
+            {occ.containerTagline[containerType](senderName)}
           </h1>
         </div>
 

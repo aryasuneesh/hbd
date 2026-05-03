@@ -4,9 +4,10 @@ import MovieExpanded     from './expanded/MovieExpanded';
 import PinterestExpanded from './expanded/PinterestExpanded';
 import PhotoExpanded     from './expanded/PhotoExpanded';
 import StickerWidget     from '../widgets/StickerWidget';
+import LinkExpanded      from './expanded/LinkExpanded';
+import PlaylistExpanded  from './expanded/PlaylistExpanded';
 import type { Widget }   from '../../types/bouquet';
 
-// Renders the expanded content inside a modal — caller owns the modal chrome.
 export default function WidgetReveal({ widget, onClose }: { widget: Widget; onClose: () => void }) {
   switch (widget.type) {
     case 'spotify':   return <SpotifyExpanded   widget={widget} onClose={onClose} />;
@@ -15,5 +16,7 @@ export default function WidgetReveal({ widget, onClose }: { widget: Widget; onCl
     case 'pinterest': return <PinterestExpanded widget={widget} onClose={onClose} />;
     case 'photo':     return <PhotoExpanded     widget={widget} onClose={onClose} />;
     case 'sticker':   return <StickerWidget     widget={widget} />;
+    case 'link':      return <LinkExpanded      widget={widget} onClose={onClose} />;
+    case 'playlist':  return <PlaylistExpanded  widget={widget} onClose={onClose} />;
   }
 }

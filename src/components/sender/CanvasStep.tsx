@@ -7,6 +7,8 @@ import MoviePopup     from './popups/MoviePopup';
 import PinterestPopup from './popups/PinterestPopup';
 import PhotoPopup     from './popups/PhotoPopup';
 import StickerPopup   from './popups/StickerPopup';
+import LinkPopup      from './popups/LinkPopup';
+import PlaylistPopup  from './popups/PlaylistPopup';
 import type { ContainerType, Widget, WidgetType } from '../../types/bouquet';
 
 interface Props {
@@ -119,6 +121,8 @@ export default function CanvasStep({ onBack, onFinish, saving }: Props) {
       {activePopup === 'pinterest' && <PinterestPopup onCancel={() => setActivePopup(null)} onAdd={handleWidgetAdded} position={pendingPosition} />}
       {activePopup === 'photo'     && <PhotoPopup     onCancel={() => setActivePopup(null)} onAdd={handleWidgetAdded} position={pendingPosition} />}
       {activePopup === 'sticker'   && <StickerPopup   onCancel={() => setActivePopup(null)} onAdd={handleWidgetAdded} position={pendingPosition} />}
+      {activePopup === 'link'      && <LinkPopup      onCancel={() => setActivePopup(null)} onAdd={handleWidgetAdded} position={pendingPosition} />}
+      {activePopup === 'playlist'  && <PlaylistPopup  onCancel={() => setActivePopup(null)} onAdd={handleWidgetAdded} position={pendingPosition} />}
     </div>
   );
 }

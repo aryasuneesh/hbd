@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import WidgetReveal from './WidgetReveal';
 import EmojiCover from './EmojiCover';
@@ -13,6 +13,7 @@ export default function BasketContainer({ widgets }: Props) {
   const [unwrapped, setUnwrapped]   = useState(false);
   const [revealedIds, setRevealedIds] = useState<Set<string>>(new Set());
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  const canvasRef = useRef<HTMLDivElement>(null);
 
   const reveal = (id: string) =>
     setRevealedIds(prev => {
@@ -90,7 +91,7 @@ export default function BasketContainer({ widgets }: Props) {
 
       {/* ── Emoji widgets — scatter in after weave unfurls.
               Two-step reveal: emoji → small card → expanded modal.        */}
-      <div className="absolute inset-0" style={{ zIndex: 10 }}>
+      <div ref={canvasRef} className="absolute inset-0" style={{ zIndex: 10 }}>
         {unwrapped && widgets.map((widget, i) => (
           <motion.div
             key={widget.id}
@@ -98,10 +99,17 @@ export default function BasketContainer({ widgets }: Props) {
               position: 'absolute',
               left: `${widget.position.x}%`,
               top:  `${widget.position.y}%`,
+              cursor: 'grab',
+              touchAction: 'none',
             }}
             initial={{ opacity: 0, scale: 0 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ type: 'spring', stiffness: 220, damping: 20, delay: 0.45 + i * 0.07 }}
+            drag
+            dragMomentum={false}
+            dragElastic={0}
+            dragConstraints={canvasRef}
+            whileDrag={{ scale: 1.08, zIndex: 50, cursor: 'grabbing' }}
           >
             <EmojiCover
               emoji={widget.emoji}

@@ -1,11 +1,14 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import CardContent from './CardContent';
+import type { OccasionType } from '../../types/bouquet';
+import { OCCASIONS, DEFAULT_OCCASION } from '../../lib/occasions';
 
 interface Props {
   recipientName: string;
   message: string;
   cardPhotoUrl: string | null;
+  occasion?: OccasionType;
   onOpen: () => void;
   onSeeGifts: () => void;
 }
@@ -35,10 +38,12 @@ export default function CardEnvelope({
   recipientName,
   message,
   cardPhotoUrl,
+  occasion,
   onOpen: _onOpen,
   onSeeGifts,
 }: Props) {
   const [phase, setPhase] = useState<Phase>('closed');
+  const occ = OCCASIONS[occasion ?? DEFAULT_OCCASION];
 
   function handleTap() {
     if (phase !== 'closed') return;
@@ -89,7 +94,7 @@ export default function CardEnvelope({
               transition={{ type: 'spring', stiffness: 80, damping: 16 }}
             >
               <div className="flex flex-col items-center gap-2 p-6">
-                <span className="text-3xl">🌷</span>
+                <span className="text-3xl">{occ.cardEmoji}</span>
                 <span className="font-display text-sm italic text-amber">for you…</span>
               </div>
             </motion.div>
@@ -222,6 +227,7 @@ export default function CardEnvelope({
               recipientName={recipientName}
               message={message}
               cardPhotoUrl={cardPhotoUrl}
+              occasion={occasion}
               onSeeGifts={onSeeGifts}
             />
           </motion.div>

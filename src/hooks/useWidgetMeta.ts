@@ -29,7 +29,7 @@ export function useWidgetMeta(type: WidgetType, url: string): WidgetMetaResult {
         let result: Meta;
         if (type === 'spotify')        result = await fetchSpotifyMeta(url) as unknown as Meta;
         else if (type === 'youtube')   result = await fetchYoutubeMeta(url) as unknown as Meta;
-        else                           result = await fetchOgMeta(url) as unknown as Meta;
+        else                           result = await fetchOgMeta(url) as unknown as Meta; // 'link', 'movie', 'pinterest', etc.
         setMeta(result);
       } catch {
         setError('Could not fetch metadata. Check the URL and try again.');

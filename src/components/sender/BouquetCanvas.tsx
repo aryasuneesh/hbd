@@ -7,6 +7,8 @@ import MovieWidget     from '../widgets/MovieWidget';
 import PinterestWidget from '../widgets/PinterestWidget';
 import PhotoWidget     from '../widgets/PhotoWidget';
 import StickerWidget   from '../widgets/StickerWidget';
+import LinkWidget      from '../widgets/LinkWidget';
+import PlaylistWidget  from '../widgets/PlaylistWidget';
 import type { Widget, WidgetType } from '../../types/bouquet';
 
 const MAX_WIDGETS = 12;
@@ -19,14 +21,16 @@ interface Props {
   onClosePopup: () => void;
 }
 
-function WidgetCard({ widget }: { widget: Widget }) {
+function CanvasWidgetCard({ widget }: { widget: Widget }) {
   switch (widget.type) {
-    case 'spotify':   return <SpotifyWidget widget={widget} />;
-    case 'youtube':   return <YoutubeWidget widget={widget} />;
-    case 'movie':     return <MovieWidget widget={widget} />;
+    case 'spotify':   return <SpotifyWidget   widget={widget} />;
+    case 'youtube':   return <YoutubeWidget   widget={widget} />;
+    case 'movie':     return <MovieWidget     widget={widget} />;
     case 'pinterest': return <PinterestWidget widget={widget} />;
-    case 'photo':     return <PhotoWidget widget={widget} />;
-    case 'sticker':   return <StickerWidget widget={widget} />;
+    case 'photo':     return <PhotoWidget     widget={widget} />;
+    case 'sticker':   return <StickerWidget   widget={widget} />;
+    case 'link':      return <LinkWidget      widget={widget} />;
+    case 'playlist':  return <PlaylistWidget  widget={widget} />;
   }
 }
 
@@ -36,9 +40,8 @@ export default function BouquetCanvas({ widgets, onAddWidget, onRemoveWidget, ac
 
   function handleSidebarSelect(type: WidgetType) {
     if (atLimit) return;
-    // Place at a pseudo-random centre position
-    const x = 20 + Math.random() * 60;
-    const y = 20 + Math.random() * 60;
+    const x = 20 + Math.random() * 55;
+    const y = 10 + Math.random() * 65;
     onAddWidget(type, { x, y });
   }
 
@@ -59,7 +62,7 @@ export default function BouquetCanvas({ widgets, onAddWidget, onRemoveWidget, ac
         {widgets.map((widget) => (
           <motion.div
             key={widget.id}
-            className="absolute cursor-pointer group"
+            className="absolute cursor-grab active:cursor-grabbing group"
             style={{
               left: `${widget.position.x}%`,
               top: `${widget.position.y}%`,
@@ -69,9 +72,11 @@ export default function BouquetCanvas({ widgets, onAddWidget, onRemoveWidget, ac
             }}
             drag
             dragMomentum={false}
+            dragElastic={0}
+            dragConstraints={canvasRef}
             whileDrag={{ scale: 1.05, zIndex: 50 }}
           >
-            <WidgetCard widget={widget} />
+            <CanvasWidgetCard widget={widget} />
             <button
               onClick={() => onRemoveWidget(widget.id)}
               className="absolute -top-2 -right-2 w-5 h-5 bg-terracotta text-white rounded-full text-xs hidden group-hover:flex items-center justify-center leading-none"

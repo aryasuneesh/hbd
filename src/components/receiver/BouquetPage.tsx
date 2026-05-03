@@ -67,6 +67,7 @@ function BouquetPageInner({ bouquetId }: { bouquetId: string }) {
           senderName={bouquet!.senderName}
           recipientName={bouquet!.recipientName}
           containerType={bouquet!.containerType}
+          occasion={bouquet!.occasion}
           onOpen={() => {
             // trigger() MUST fire before setState so it runs synchronously
             // inside the click event — Chrome only grants audio autoplay
@@ -82,6 +83,7 @@ function BouquetPageInner({ bouquetId }: { bouquetId: string }) {
           recipientName={bouquet!.recipientName}
           message={bouquet!.message}
           cardPhotoUrl={bouquet!.cardPhotoUrl}
+          occasion={bouquet!.occasion}
           onOpen={() => {}}
           onSeeGifts={() => setState({ phase: 'container', bouquet: bouquet! })}
         />

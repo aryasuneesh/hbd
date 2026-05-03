@@ -1,5 +1,6 @@
-import type { ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+import EmojiPicker from '../EmojiPicker';
 
 interface Props {
   title: string;
@@ -14,6 +15,8 @@ interface Props {
 export default function AddWidgetPopup({
   title, emoji, onEmojiChange, onCancel, onAdd, addDisabled, children,
 }: Props) {
+  const [pickerOpen, setPickerOpen] = useState(false);
+
   return (
     <AnimatePresence>
       {/* Backdrop */}
@@ -50,15 +53,21 @@ export default function AddWidgetPopup({
                 Cover emoji
               </label>
               <div className="flex items-center gap-3">
-                <button
-                  className="w-12 h-12 bg-sand/40 rounded-xl border border-[var(--border)] text-3xl flex items-center justify-center hover:border-terracotta transition-colors"
-                  onClick={() => {
-                    const input = window.prompt('Enter an emoji:', emoji);
-                    if (input?.trim()) onEmojiChange(input.trim());
-                  }}
-                >
-                  {emoji}
-                </button>
+                <div className="relative">
+                  <button
+                    type="button"
+                    className="w-12 h-12 bg-sand/40 rounded-xl border border-[var(--border)] text-3xl flex items-center justify-center hover:border-terracotta transition-colors"
+                    onClick={() => setPickerOpen((o) => !o)}
+                  >
+                    {emoji}
+                  </button>
+                  {pickerOpen && (
+                    <EmojiPicker
+                      onSelect={onEmojiChange}
+                      onClose={() => setPickerOpen(false)}
+                    />
+                  )}
+                </div>
                 <p className="text-xs text-muted font-body italic leading-relaxed">
                   Tap to change. This is what<br />the receiver sees first.
                 </p>

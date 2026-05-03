@@ -1,6 +1,7 @@
+export type OccasionType = 'birthday' | 'congratulations' | 'get-well-soon' | 'just-because';
 export type CardStyle = 'fold' | 'envelope';
 export type ContainerType = 'bouquet' | 'basket';
-export type WidgetType = 'spotify' | 'youtube' | 'movie' | 'pinterest' | 'photo' | 'sticker';
+export type WidgetType = 'spotify' | 'youtube' | 'movie' | 'pinterest' | 'photo' | 'sticker' | 'link' | 'playlist';
 export type PlaylistType = 'spotify' | 'youtube';
 
 export interface Position { x: number; y: number; }
@@ -57,17 +58,37 @@ export interface StickerWidget extends BaseWidget {
   storageUrl: string;  // empty string if pre-made
 }
 
+export interface LinkWidget extends BaseWidget {
+  type: 'link';
+  url: string;
+  title: string;
+  description: string;
+  imageUrl: string;
+}
+
+export interface PlaylistWidget extends BaseWidget {
+  type: 'playlist';
+  url: string;
+  playlistTitle: string;
+  creatorName: string;
+  thumbnailUrl: string;
+  source: 'spotify' | 'youtube';
+}
+
 export type Widget =
   | SpotifyWidget
   | YoutubeWidget
   | MovieWidget
   | PinterestWidget
   | PhotoWidget
-  | StickerWidget;
+  | StickerWidget
+  | LinkWidget
+  | PlaylistWidget;
 
 export interface Bouquet {
   id?: string;
   createdAt?: Date;
+  occasion?: OccasionType;
   cardStyle: CardStyle;
   containerType: ContainerType;
   senderName: string;
@@ -86,3 +107,5 @@ export const isMovieWidget     = (w: Widget): w is MovieWidget     => w.type ===
 export const isPinterestWidget = (w: Widget): w is PinterestWidget => w.type === 'pinterest';
 export const isPhotoWidget     = (w: Widget): w is PhotoWidget     => w.type === 'photo';
 export const isStickerWidget   = (w: Widget): w is StickerWidget   => w.type === 'sticker';
+export const isLinkWidget      = (w: Widget): w is LinkWidget      => w.type === 'link';
+export const isPlaylistWidget  = (w: Widget): w is PlaylistWidget  => w.type === 'playlist';

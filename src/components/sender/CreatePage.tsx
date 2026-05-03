@@ -3,11 +3,19 @@ import StepIndicator from './StepIndicator';
 import CardStep from './CardStep';
 import CanvasStep from './CanvasStep';
 import { saveBouquet } from '../../lib/firestore';
-import type { Bouquet, CardStyle, ContainerType, Widget } from '../../types/bouquet';
+import type { Bouquet, CardStyle, ContainerType, OccasionType, Widget } from '../../types/bouquet';
 
-interface Props { onComplete: (bouquetId: string) => void; }
+interface CompletePayload {
+  bouquetId: string;
+  recipientName: string;
+  senderName: string;
+  occasion: OccasionType;
+}
+
+interface Props { onComplete: (payload: CompletePayload) => void; }
 
 export interface CardData {
+  occasion: OccasionType;
   senderName: string;
   recipientName: string;
   message: string;
@@ -37,7 +45,12 @@ export default function CreatePage({ onComplete }: Props) {
         playlistType,
       };
       const id = await saveBouquet(bouquet);
-      onComplete(id);
+      onComplete({
+        bouquetId: id,
+        recipientName: cardData.recipientName,
+        senderName: cardData.senderName,
+        occasion: cardData.occasion,
+      });
     } finally {
       setSaving(false);
     }

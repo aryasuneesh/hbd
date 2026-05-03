@@ -1,18 +1,22 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import CardContent from './CardContent';
+import type { OccasionType } from '../../types/bouquet';
+import { OCCASIONS, DEFAULT_OCCASION } from '../../lib/occasions';
 
 interface Props {
   recipientName: string;
   message: string;
   cardPhotoUrl: string | null;
+  occasion?: OccasionType;
   onOpen: () => void;
   onSeeGifts: () => void;
 }
 
-export default function CardFold({ recipientName, message, cardPhotoUrl, onOpen, onSeeGifts }: Props) {
+export default function CardFold({ recipientName, message, cardPhotoUrl, occasion, onOpen, onSeeGifts }: Props) {
   const [flipped, setFlipped]       = useState(false);
   const [fullyOpen, setFullyOpen]   = useState(false);
+  const occ = OCCASIONS[occasion ?? DEFAULT_OCCASION];
 
   return (
     <div className="min-h-screen bg-cream flex items-center justify-center p-6">
@@ -35,7 +39,7 @@ export default function CardFold({ recipientName, message, cardPhotoUrl, onOpen,
             style={{ backfaceVisibility: 'hidden' }}
             onClick={() => { if (!flipped) setFlipped(true); }}
           >
-            <span className="text-6xl">🌸</span>
+            <span className="text-6xl">{occ.cardEmoji}</span>
             <span className="font-display text-base italic text-amber">Tap to open</span>
           </div>
 
@@ -49,6 +53,7 @@ export default function CardFold({ recipientName, message, cardPhotoUrl, onOpen,
                 recipientName={recipientName}
                 message={message}
                 cardPhotoUrl={cardPhotoUrl}
+                occasion={occasion}
                 onSeeGifts={onSeeGifts}
               />
             )}

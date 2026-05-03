@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import type { CardData } from './CreatePage';
-import type { CardStyle } from '../../types/bouquet';
+import type { CardStyle, OccasionType } from '../../types/bouquet';
+import { OCCASIONS } from '../../lib/occasions';
 
 interface Props { onNext: (data: CardData) => void; }
 
@@ -9,7 +10,15 @@ const CARD_STYLES: { value: CardStyle; label: string; desc: string; emoji: strin
   { value: 'envelope', label: 'Envelope',       desc: 'Rises from an envelope', emoji: '✉️' },
 ];
 
+const OCCASION_OPTIONS: { value: OccasionType; label: string; emoji: string }[] = [
+  { value: 'birthday',        label: 'Happy Birthday',   emoji: '🎂' },
+  { value: 'congratulations', label: 'Congratulations',  emoji: '🎉' },
+  { value: 'get-well-soon',   label: 'Get Well Soon',    emoji: '🌼' },
+  { value: 'just-because',    label: 'Just Because',     emoji: '💌' },
+];
+
 export default function CardStep({ onNext }: Props) {
+  const [occasion, setOccasion]           = useState<OccasionType>('birthday');
   const [senderName, setSenderName]       = useState('');
   const [recipientName, setRecipientName] = useState('');
   const [message, setMessage]             = useState('');
@@ -23,6 +32,7 @@ export default function CardStep({ onNext }: Props) {
   function handleNext() {
     if (!canProceed) return;
     onNext({
+      occasion,
       senderName: senderName.trim(),
       recipientName: recipientName.trim(),
       message: message.trim(),
@@ -31,13 +41,37 @@ export default function CardStep({ onNext }: Props) {
     });
   }
 
+  const occ = OCCASIONS[occasion];
+
   return (
     <div className="flex flex-col items-center px-4 pb-12">
       <div className="w-full max-w-lg bg-[var(--card-bg)] rounded-2xl border border-[var(--border)] shadow-[var(--shadow-card)] p-8 flex flex-col gap-6">
 
         <h2 className="font-display text-2xl italic text-amber text-center">
-          Write the card 🌸
+          Write the card {occ.cardEmoji}
         </h2>
+
+        {/* Occasion picker */}
+        <div className="flex flex-col gap-2">
+          <label className="text-xs font-body text-muted uppercase tracking-widest">Occasion</label>
+          <div className="grid grid-cols-2 gap-2">
+            {OCCASION_OPTIONS.map((o) => (
+              <button
+                key={o.value}
+                onClick={() => setOccasion(o.value)}
+                className={`
+                  flex items-center gap-2.5 px-3 py-2.5 rounded-xl border transition-all text-left
+                  ${occasion === o.value
+                    ? 'border-terracotta bg-blush/20'
+                    : 'border-[var(--border)] bg-sand/20 hover:border-sand'}
+                `}
+              >
+                <span className="text-xl leading-none">{o.emoji}</span>
+                <span className="font-body text-xs text-amber leading-tight">{o.label}</span>
+              </button>
+            ))}
+          </div>
+        </div>
 
         {/* Sender name */}
         <div className="flex flex-col gap-2">

@@ -1,19 +1,24 @@
 import { motion } from 'framer-motion';
+import type { OccasionType } from '../../types/bouquet';
+import { OCCASIONS, DEFAULT_OCCASION } from '../../lib/occasions';
 
 interface Props {
   recipientName: string;
   message: string;
   cardPhotoUrl: string | null;
+  occasion?: OccasionType;
   onSeeGifts: () => void;
 }
 
-export default function CardContent({ recipientName, message, cardPhotoUrl, onSeeGifts }: Props) {
+export default function CardContent({ recipientName, message, cardPhotoUrl, occasion, onSeeGifts }: Props) {
+  const occ = OCCASIONS[occasion ?? DEFAULT_OCCASION];
+
   return (
     <div className="flex flex-col items-center gap-5 p-8 max-w-xs w-full">
-      <div className="text-2xl tracking-widest">🌸 ✨ 🌼</div>
+      <div className="text-2xl tracking-widest">{occ.decorEmojis}</div>
 
       <h2 className="font-display text-2xl italic text-amber text-center leading-snug">
-        Happy Birthday,<br />{recipientName}
+        {occ.cardGreeting}<br />{recipientName}
       </h2>
 
       <div className="w-8 h-px bg-sand" />
@@ -44,7 +49,7 @@ export default function CardContent({ recipientName, message, cardPhotoUrl, onSe
         transition={{ delay: 0.8 }}
         whileTap={{ scale: 0.97 }}
       >
-        See your gifts 🌷
+        {occ.seeGiftsLabel}
       </motion.button>
     </div>
   );
