@@ -102,42 +102,58 @@ export default function BouquetContainer({ widgets }: Props) {
             2) tap small card → opens expanded modal
           Stickers only do step 1.                                          */}
       <div ref={canvasRef} className="absolute inset-0" style={{ zIndex: 10 }}>
-        {unwrapped && widgets.map((widget, i) => (
-          <motion.div
-            key={widget.id}
-            style={{
-              position: 'absolute',
-              left: `${widget.position.x}%`,
-              top:  `${widget.position.y}%`,
-              cursor: 'grab',
-              touchAction: 'none',
-            }}
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ type: 'spring', stiffness: 220, damping: 20, delay: 0.45 + i * 0.07 }}
-            drag
-            dragMomentum={false}
-            dragElastic={0}
-            dragConstraints={canvasRef}
-            whileDrag={{ scale: 1.08, zIndex: 50, cursor: 'grabbing' }}
-          >
-            <EmojiCover
-              emoji={widget.emoji}
-              revealed={revealedIds.has(widget.id)}
-              onReveal={() => reveal(widget.id)}
-              rotation={widget.rotation}
+        {unwrapped && widgets.map((widget, i) => {
+          const isRevealed = revealedIds.has(widget.id);
+          const canExpand  = isRevealed && widget.type !== 'sticker';
+
+          const activate = () => {
+            if (!isRevealed) reveal(widget.id);
+            else if (widget.type !== 'sticker') setExpandedId(widget.id);
+          };
+
+          return (
+            <motion.div
+              key={widget.id}
+              style={{
+                position: 'absolute',
+                left: `${widget.position.x}%`,
+                top:  `${widget.position.y}%`,
+                cursor: 'grab',
+                touchAction: 'none',
+              }}
+              initial={{ opacity: 0, scale: 0 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ type: 'spring', stiffness: 220, damping: 20, delay: 0.45 + i * 0.07 }}
+              drag
+              dragMomentum={false}
+              dragElastic={0}
+              dragConstraints={canvasRef}
+              whileDrag={{ scale: 1.08, zIndex: 50, cursor: 'grabbing' }}
+              onTap={activate}
+              role="button"
+              tabIndex={0}
+              aria-label={
+                !isRevealed   ? `Reveal ${widget.emoji}` :
+                canExpand     ? `Expand ${widget.emoji}` :
+                                widget.emoji
+              }
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  activate();
+                }
+              }}
             >
-              <button
-                onClick={() => { if (widget.type !== 'sticker') setExpandedId(widget.id); }}
-                className="block bg-transparent border-none p-0"
-                style={{ cursor: widget.type === 'sticker' ? 'default' : 'pointer' }}
-                aria-label={widget.type !== 'sticker' ? `Expand ${widget.emoji}` : undefined}
+              <EmojiCover
+                emoji={widget.emoji}
+                revealed={isRevealed}
+                rotation={widget.rotation}
               >
                 <WidgetCard widget={widget} />
-              </button>
-            </EmojiCover>
-          </motion.div>
-        ))}
+              </EmojiCover>
+            </motion.div>
+          );
+        })}
       </div>
 
       {/* Expanded widget modal — backdrop is flex so child is always centred */}

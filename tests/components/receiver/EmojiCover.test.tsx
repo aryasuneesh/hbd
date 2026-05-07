@@ -1,36 +1,36 @@
-import { describe, it, expect, vi } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { describe, it, expect } from 'vitest';
+import { render, screen } from '@testing-library/react';
 import EmojiCover from '../../../src/components/receiver/EmojiCover';
 
+// EmojiCover is now pure presentation: it renders the emoji on the front face
+// and the widget card on the back face. Tap/drag handling lives on the parent
+// container so the two gestures don't compete on overlapping elements.
+
 describe('EmojiCover', () => {
-  it('shows emoji when not revealed', () => {
+  it('shows emoji on the front face when not revealed', () => {
     render(
-      <EmojiCover emoji="🌸" revealed={false} onReveal={vi.fn()} rotation={5}>
+      <EmojiCover emoji="🌸" revealed={false} rotation={5}>
         <div>widget content</div>
       </EmojiCover>
     );
     expect(screen.getByText('🌸')).toBeInTheDocument();
   });
 
-  it('calls onReveal when tapped while hidden', () => {
-    const onReveal = vi.fn();
+  it('renders the widget child when revealed', () => {
     render(
-      <EmojiCover emoji="🌸" revealed={false} onReveal={onReveal} rotation={5}>
-        <div>widget</div>
+      <EmojiCover emoji="🌸" revealed={true} rotation={5}>
+        <div data-testid="card">widget content</div>
       </EmojiCover>
     );
-    fireEvent.click(screen.getByRole('button'));
-    expect(onReveal).toHaveBeenCalledOnce();
+    expect(screen.getByTestId('card')).toBeInTheDocument();
   });
 
-  it('does not call onReveal when already revealed', () => {
-    const onReveal = vi.fn();
+  it('does not expose any interactive button — interaction is on the parent', () => {
     render(
-      <EmojiCover emoji="🌸" revealed={true} onReveal={onReveal} rotation={5}>
+      <EmojiCover emoji="🌸" revealed={false} rotation={5}>
         <div>widget</div>
       </EmojiCover>
     );
-    // No button when revealed
     expect(screen.queryByRole('button')).toBeNull();
   });
 });

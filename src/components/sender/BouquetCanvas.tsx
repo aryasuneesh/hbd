@@ -13,6 +13,48 @@ import type { Widget, WidgetType } from '../../types/bouquet';
 
 const MAX_WIDGETS = 12;
 
+// ── Stratified jitter grid for widget placement ─────────────────────────────
+// 4 cols × 3 rows = 12 cells, exactly matching MAX_WIDGETS so every widget
+// claims its own cell. Padding keeps widgets clear of the canvas edges.
+const GRID_COLS = 4;
+const GRID_ROWS = 3;
+const X_PAD = 10; // % from left/right edges
+const Y_PAD = 8;  // % from top/bottom edges
+const CELL_W = (100 - 2 * X_PAD) / GRID_COLS;
+const CELL_H = (100 - 2 * Y_PAD) / GRID_ROWS;
+
+function cellOf(x: number, y: number): number {
+  const col = Math.min(GRID_COLS - 1, Math.max(0, Math.floor((x - X_PAD) / CELL_W)));
+  const row = Math.min(GRID_ROWS - 1, Math.max(0, Math.floor((y - Y_PAD) / CELL_H)));
+  return row * GRID_COLS + col;
+}
+
+function pickPosition(widgets: Widget[]): { x: number; y: number } {
+  const occupied = new Set<number>();
+  for (const w of widgets) occupied.add(cellOf(w.position.x, w.position.y));
+
+  const free: number[] = [];
+  for (let i = 0; i < GRID_COLS * GRID_ROWS; i++) if (!occupied.has(i)) free.push(i);
+
+  // If somehow all cells are full (e.g. multiple widgets dragged into one cell),
+  // fall back to any random cell so we still place rather than refuse.
+  const cell = free.length
+    ? free[Math.floor(Math.random() * free.length)]
+    : Math.floor(Math.random() * GRID_COLS * GRID_ROWS);
+
+  const col = cell % GRID_COLS;
+  const row = Math.floor(cell / GRID_COLS);
+  // Jitter within the inner 60% of the cell — natural-looking variance,
+  // never enough to escape the cell and break the dispersion guarantee.
+  const jitterX = (Math.random() - 0.5) * 0.6 * CELL_W;
+  const jitterY = (Math.random() - 0.5) * 0.6 * CELL_H;
+
+  return {
+    x: X_PAD + col * CELL_W + CELL_W / 2 + jitterX,
+    y: Y_PAD + row * CELL_H + CELL_H / 2 + jitterY,
+  };
+}
+
 interface Props {
   widgets: Widget[];
   onAddWidget: (type: WidgetType, position: { x: number; y: number }) => void;
@@ -40,9 +82,7 @@ export default function BouquetCanvas({ widgets, onAddWidget, onRemoveWidget, ac
 
   function handleSidebarSelect(type: WidgetType) {
     if (atLimit) return;
-    const x = 20 + Math.random() * 55;
-    const y = 10 + Math.random() * 65;
-    onAddWidget(type, { x, y });
+    onAddWidget(type, pickPosition(widgets));
   }
 
   return (

@@ -4,19 +4,16 @@ import type { ReactNode } from 'react';
 interface Props {
   emoji: string;
   revealed: boolean;
-  onReveal: () => void;
   rotation: number;
   children: ReactNode;  // the widget card shown on the back face
 }
 
-export default function EmojiCover({ emoji, revealed, onReveal, rotation, children }: Props) {
+// Pure presentation: a flip card whose front shows an emoji and back shows
+// the widget. Tap/click handling lives on the parent so it can coexist with
+// drag without competing for the pointer gesture.
+export default function EmojiCover({ emoji, revealed, rotation, children }: Props) {
   return (
-    <div
-      className="absolute"
-      style={{
-        willChange: 'transform',
-      }}
-    >
+    <div className="absolute" style={{ willChange: 'transform' }}>
       <motion.div
         style={{
           rotate: rotation,
@@ -28,18 +25,9 @@ export default function EmojiCover({ emoji, revealed, onReveal, rotation, childr
       >
         {/* Front face — emoji */}
         {!revealed && (
-          <button
-            onClick={onReveal}
-            className="block min-w-[44px] min-h-[44px] flex items-center justify-center"
-            style={{
-              backfaceVisibility: 'hidden',
-              background: 'none',
-              border: 'none',
-              padding: 0,
-              cursor: 'pointer',
-              lineHeight: 1,
-            }}
-            aria-label={`Reveal ${emoji}`}
+          <div
+            className="min-w-[44px] min-h-[44px] flex items-center justify-center"
+            style={{ backfaceVisibility: 'hidden', lineHeight: 1 }}
           >
             <span
               className="text-6xl select-none"
@@ -47,7 +35,7 @@ export default function EmojiCover({ emoji, revealed, onReveal, rotation, childr
             >
               {emoji}
             </span>
-          </button>
+          </div>
         )}
 
         {/* Back face — widget card */}
