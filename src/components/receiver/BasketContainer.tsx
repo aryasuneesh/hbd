@@ -15,7 +15,7 @@ export default function BasketContainer({ widgets }: Props) {
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const canvasRef = useRef<HTMLDivElement>(null);
   const draggedRef = useRef<Set<string>>(new Set());
-  const dragTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const dragTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const reveal = (id: string) =>
     setRevealedIds(prev => {
