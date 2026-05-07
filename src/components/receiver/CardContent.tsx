@@ -7,10 +7,9 @@ interface Props {
   message: string;
   cardPhotoUrl: string | null;
   occasion?: OccasionType;
-  onSeeGifts: () => void;
 }
 
-export default function CardContent({ recipientName, message, cardPhotoUrl, occasion, onSeeGifts }: Props) {
+export default function CardContent({ recipientName, message, cardPhotoUrl, occasion }: Props) {
   const occ = OCCASIONS[occasion ?? DEFAULT_OCCASION];
 
   return (
@@ -35,22 +34,11 @@ export default function CardContent({ recipientName, message, cardPhotoUrl, occa
         />
       )}
 
-      <p className="font-body text-sm text-amber/80 text-center leading-relaxed italic">
-        "{message}"
-      </p>
-
-      <div className="w-8 h-px bg-sand" />
-
-      <motion.button
-        onClick={onSeeGifts}
-        className="text-sm font-display italic text-terracotta hover:opacity-70 transition-opacity"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.8 }}
-        whileTap={{ scale: 0.97 }}
-      >
-        {occ.seeGiftsLabel}
-      </motion.button>
+      <div className="w-full max-h-48 overflow-y-auto overscroll-contain message-scroll px-1">
+        <p className="font-body text-sm text-amber/80 text-center leading-relaxed italic whitespace-pre-wrap">
+          "{message}"
+        </p>
+      </div>
     </div>
   );
 }

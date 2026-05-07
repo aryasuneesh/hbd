@@ -218,18 +218,30 @@ export default function CardEnvelope({
         {phase === 'reading' && (
           <motion.div
             key="card-reading"
-            className="bg-[var(--card-bg)] rounded-2xl border border-[var(--border)] shadow-[var(--shadow-popup)] w-full max-w-sm overflow-hidden flex flex-col items-center"
+            className="flex flex-col items-center gap-6 w-full max-w-sm"
             initial={{ opacity: 0, scale: 0.96, y: 12 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ duration: 0.4, ease: 'easeOut' }}
           >
-            <CardContent
-              recipientName={recipientName}
-              message={message}
-              cardPhotoUrl={cardPhotoUrl}
-              occasion={occasion}
-              onSeeGifts={onSeeGifts}
-            />
+            <div className="bg-[var(--card-bg)] rounded-2xl border border-[var(--border)] shadow-[var(--shadow-popup)] w-full overflow-hidden flex flex-col items-center">
+              <CardContent
+                recipientName={recipientName}
+                message={message}
+                cardPhotoUrl={cardPhotoUrl}
+                occasion={occasion}
+              />
+            </div>
+
+            <motion.button
+              onClick={onSeeGifts}
+              className="font-display italic text-terracotta text-base px-6 py-2 rounded-full border border-terracotta/30 bg-cream/60 hover:bg-cream transition-colors"
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5, duration: 0.4 }}
+              whileTap={{ scale: 0.97 }}
+            >
+              {occ.seeGiftsLabel}
+            </motion.button>
           </motion.div>
         )}
 
