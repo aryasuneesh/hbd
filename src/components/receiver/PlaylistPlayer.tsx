@@ -11,16 +11,46 @@ export interface PlaylistPlayerHandle {
   trigger: () => void;
 }
 
+function extractYoutubeVideoId(url: string): string | null {
+  // youtu.be/ID
+  let m = url.match(/youtu\.be\/([^?&\s/]+)/);
+  if (m) return m[1];
+  // youtube.com/shorts/ID
+  m = url.match(/\/shorts\/([^?&\s/]+)/);
+  if (m) return m[1];
+  // youtube.com/watch?v=ID
+  m = url.match(/[?&]v=([^&\s]+)/);
+  if (m) return m[1];
+  // youtube.com/embed/ID
+  m = url.match(/\/embed\/([^?&\s/]+)/);
+  if (m) return m[1];
+  return null;
+}
+
 function buildEmbedUrl(url: string, type: 'spotify' | 'youtube'): string {
   if (type === 'spotify') {
     const m = url.match(/spotify\.com\/(playlist|album|track)\/([a-zA-Z0-9]+)/);
     if (!m) return '';
     return `https://open.spotify.com/embed/${m[1]}/${m[2]}?utm_source=generator&autoplay=1&theme=0`;
   }
-  const m = url.match(/[?&]list=([^&]+)/);
-  if (!m) return '';
+
   const origin = encodeURIComponent(window.location.origin);
-  return `https://www.youtube.com/embed/videoseries?list=${m[1]}&autoplay=1&mute=1&enablejsapi=1&origin=${origin}`;
+  const baseParams = `autoplay=1&mute=1&enablejsapi=1&origin=${origin}`;
+
+  // Playlist URLs take priority — the user shared a list of tracks, not a single song.
+  const listMatch = url.match(/[?&]list=([^&]+)/);
+  if (listMatch) {
+    return `https://www.youtube.com/embed/videoseries?list=${listMatch[1]}&${baseParams}`;
+  }
+
+  // Single video — loop forever with the playlist=ID hack (YouTube requires both
+  // loop=1 and playlist=<same id> for a single-video embed to actually loop).
+  const videoId = extractYoutubeVideoId(url);
+  if (videoId) {
+    return `https://www.youtube.com/embed/${videoId}?${baseParams}&loop=1&playlist=${videoId}`;
+  }
+
+  return '';
 }
 
 const PlaylistPlayer = forwardRef<PlaylistPlayerHandle, Props>(

@@ -24,7 +24,7 @@ export default function PlaylistSlot({ value, onChange }: Props) {
       <input
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        placeholder="Paste a Spotify or YouTube playlist URL…"
+        placeholder="Paste a Spotify track or a YouTube video / playlist URL…"
         className="bg-sand/30 border border-[var(--border)] rounded-xl px-3 py-2.5 text-sm font-body text-amber placeholder-muted/50 outline-none focus:border-terracotta transition-colors"
       />
       {loading && <p className="text-[10px] text-muted italic font-body">Fetching playlist…</p>}
