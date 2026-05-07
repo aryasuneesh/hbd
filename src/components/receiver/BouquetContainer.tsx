@@ -43,6 +43,8 @@ export default function BouquetContainer({ widgets }: Props) {
   const [revealedIds, setRevealedIds] = useState<Set<string>>(new Set());
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const canvasRef = useRef<HTMLDivElement>(null);
+  const draggedRef = useRef<Set<string>>(new Set());
+  const dragTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const reveal = (id: string) =>
     setRevealedIds(prev => {
@@ -107,6 +109,7 @@ export default function BouquetContainer({ widgets }: Props) {
           const canExpand  = isRevealed && widget.type !== 'sticker';
 
           const activate = () => {
+            if (draggedRef.current.has(widget.id)) return;
             if (!isRevealed) reveal(widget.id);
             else if (widget.type !== 'sticker') setExpandedId(widget.id);
           };
@@ -129,6 +132,13 @@ export default function BouquetContainer({ widgets }: Props) {
               dragElastic={0}
               dragConstraints={canvasRef}
               whileDrag={{ scale: 1.08, zIndex: 50, cursor: 'grabbing' }}
+              onDragStart={() => draggedRef.current.add(widget.id)}
+              onDragEnd={() => {
+                if (dragTimeoutRef.current) clearTimeout(dragTimeoutRef.current);
+                dragTimeoutRef.current = setTimeout(() => {
+                  draggedRef.current.delete(widget.id);
+                }, 0);
+              }}
               onTap={activate}
               role="button"
               tabIndex={0}
